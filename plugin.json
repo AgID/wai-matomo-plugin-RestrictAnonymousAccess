@@ -1,0 +1,29 @@
+{
+    "name": "RestrictAnonymousAccess",
+    "description": "Restrict the access of the anonymous user to a specified list of requests",
+    "version": "0.1.0",
+    "theme": false,
+    "require": {
+        "piwik": ">=3.13.0-stable,<4.0.0-b1"
+    },
+    "authors": [
+        {
+            "name": "Davide Porrovecchio",
+            "email": "davide.porrovecchio@agid.gov.it",
+            "homepage": ""
+        }
+    ],
+    "support": {
+        "email": "",
+        "issues": "",
+        "forum": "",
+        "irc": "",
+        "wiki": "",
+        "source": "",
+        "docs": "",
+        "rss": ""
+    },
+    "homepage": "",
+    "license": "GPL v3+",
+    "keywords": []
+}
