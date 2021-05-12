@@ -56,7 +56,7 @@ class RestrictAnonymousAccess extends \Piwik\Plugin
     }
 
     /**
-     * Limit access to the configured modules for the anonymous user.
+     * Restrict access to the configured modules for the anonymous user.
      */
     public function RestrictAnonymousAccess(&$module, &$action, &$parameters)
     {
