@@ -81,8 +81,6 @@ class RestrictAnonymousAccess extends \Piwik\Plugin
         if (!$this->isAllowedRequest()) {
             if (Request::isRootRequestApiRequest()) {
                 Common::sendResponseCode(403);
-
-                return;
             }
 
             if ($this->shouldRedirectUnallowedRequests()) {
