@@ -101,8 +101,11 @@ class RestrictAnonymousAccess extends \Piwik\Plugin
     protected function isAllowedRequest()
     {
         $allowedReferrers = $this->getAllowedReferrers();
-        $referrerQuery = parse_url(Common::sanitizeInputValues(@$_SERVER['HTTP_REFERER']), PHP_URL_QUERY);
-        $isReferrerHostAllowed = 0 === stripos(@$_SERVER['HTTP_REFERER'], SettingsPiwik::getPiwikUrl());
+        $referrer = Common::sanitizeInputValues(@$_SERVER['HTTP_REFERER']);
+        $referrerQuery = parse_url($referrer, PHP_URL_QUERY);
+        $referrerHost = parse_url($referrer, PHP_URL_HOST);
+        $piwikHost = parse_url(SettingsPiwik::getPiwikUrl(), PHP_URL_HOST);
+        $isReferrerHostAllowed = 0 === stripos($referrerHost, $piwikHost);
 
         if ($isReferrerHostAllowed && !empty($allowedReferrers) && !empty($referrerQuery)) {
             $referrerQueryParams = [];
