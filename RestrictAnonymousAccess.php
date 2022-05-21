@@ -51,7 +51,8 @@ class RestrictAnonymousAccess extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            'Request.dispatch' => 'RestrictAnonymousAccess'
+            'Request.dispatch' => 'RestrictAnonymousAccess',
+            'API.Request.dispatch' => 'RestrictAPIAnonymousAccess'
         ];
     }
 
@@ -68,6 +69,16 @@ class RestrictAnonymousAccess extends \Piwik\Plugin
     }
 
     /**
+     * Restrict access to the configured modules for the anonymous user.
+     */
+    public function RestrictAPIAnonymousAccess(&$finalParameters, $pluginName, $methodName)
+    {
+        if (Piwik::isUserIsAnonymous()) {
+            $this->checkIsAllowedAPIRequest();
+        }
+    }
+
+    /**
      * Send a response based on the current request.
      * 
      * @throws NoAccessException if the request is not allowed and redirect is not configured
@@ -78,17 +89,33 @@ class RestrictAnonymousAccess extends \Piwik\Plugin
             return;
         }
 
-        if (!$this->isAllowedRequest()) {
-            if (Request::isRootRequestApiRequest()) {
-                Common::sendResponseCode(403);
-            }
+        if (Request::isRootRequestApiRequest()) {
+            return;
+        }
 
+        if (!$this->isAllowedRequest()) {
             if ($this->shouldRedirectUnallowedRequests()) {
                 Url::redirectToUrl($this->pluginConfig['redirect_unallowed_to']);
 
                 return;
             }
 
+            throw new NoAccessException(Piwik::translate('General_YouMustBeLoggedIn'));
+        }
+    }
+
+    /**
+     * Send a response based on the current request.
+     * 
+     * @throws NoAccessException if the request is not allowed
+     */
+    protected function checkIsAllowedAPIRequest()
+    {
+        if (!$this->isCurrentRequestTheRootRequest()) {
+            return;
+        }
+
+        if (!$this->isAllowedRequest()) {
             throw new NoAccessException(Piwik::translate('General_YouMustBeLoggedIn'));
         }
     }
