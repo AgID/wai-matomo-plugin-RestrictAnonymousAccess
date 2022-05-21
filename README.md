@@ -41,6 +41,6 @@ Add the following section to your `config.ini.php` according to your needs:
 allowed_requests[] = "module=Module&param=value"
 allowed_requests[] = "module=OtherModule"
 allowed_referrers[] = "module=Module&action=action&param=value"
-; uncomment to redirect the user instead of displaying an error page
+; uncomment to redirect the user instead of displaying an error page, only for non-API requests
 ;redirect_unallowed_to = <URL>
 ```
