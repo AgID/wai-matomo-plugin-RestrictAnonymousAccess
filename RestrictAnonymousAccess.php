@@ -130,7 +130,7 @@ class RestrictAnonymousAccess extends \Piwik\Plugin
         $allowedReferrers = $this->getAllowedReferrers();
         $referrer = Common::sanitizeInputValues(@$_SERVER['HTTP_REFERER']);
         // Fix for deprecation error in PHP8
-        if(is_null($referrer)) return false;
+        if(empty($referrer)) return false;
         $referrerQuery = parse_url($referrer, PHP_URL_QUERY);
         $referrerHost = parse_url($referrer, PHP_URL_HOST);
         $piwikHost = parse_url(SettingsPiwik::getPiwikUrl(), PHP_URL_HOST);
